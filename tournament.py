@@ -13,7 +13,7 @@ def connect():
 
 def deleteMatches():
     """Remove all the match records from the database."""
-    db = psycopg2.connect("dbname=tournament")
+    db = connect()
     cur = db.cursor()
     cur.execute("DELETE FROM matches")
     db.commit()
