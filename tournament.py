@@ -53,6 +53,9 @@ def registerPlayer(name):
     cur = db.cursor()
     cur.execute("INSERT INTO players(name) VALUES (%s)", (name,))
     db.commit()
+    playerID = cur.execute("SELECT player_id FROM players as playerID WHERE name = (%s)", (name,))
+    cur.execute("INSERT INTO player_standings (player_id) VALUES (%s)", (playerID,))
+    db.commit()
     db.close()
 
 
@@ -69,6 +72,11 @@ def playerStandings():
         wins: the number of matches the player has won
         matches: the number of matches the player has played
     """
+    db = connect()
+    cur = db.cursor()
+    cur.execute("SELECT players.player_id, name, wins, matches_played FROM players, player_standings order by wins desc")  # noqa
+    standings = cur.fetchall()
+    return standings
 
 
 def reportMatch(winner, loser):
