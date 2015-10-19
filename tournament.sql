@@ -6,16 +6,22 @@
 -- You can write comments in this file by starting them with two dashes, like
 -- these lines here.
 
-CREATE TABLE matches
+CREATE TABLE players
 (
-  match_id integer CONSTRAINT matches_pk PRIMARY KEY,
-  player_id integer
+  player_id serial CONSTRAINT player_id_pk PRIMARY KEY,
+  name text
 );
 
-CREATE TABLE player_records
+CREATE TABLE matches
 (
-  id integer CONSTRAINT player_record_id PRIMARY KEY,
-  player_id integer,
-  match_id integer REFERENCES matches,
-  outcome text
+  match_id serial CONSTRAINT match_id_pk PRIMARY KEY,
+  w_player_id integer REFERENCES players(player_id),
+  l_player_id integer REFERENCES players(player_id)
+);
+
+CREATE TABLE player_standings
+(
+  player_id integer REFERENCES players,
+  matches_played integer,
+  wins integer
 );
