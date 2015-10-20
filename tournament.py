@@ -49,6 +49,7 @@ def registerPlayer(name):
     Args:
       name: the player's full name (need not be unique).
     """
+<<<<<<< HEAD
     db = connect()
     cur = db.cursor()
     cur.execute("INSERT INTO players(name) VALUES (%s)", (name,))
@@ -57,6 +58,8 @@ def registerPlayer(name):
     cur.execute("INSERT INTO player_standings (player_id) VALUES (%s)", (playerID,))
     db.commit()
     db.close()
+=======
+>>>>>>> parent of e21c485... Added functionality to registerPlayer function
 
 
 def playerStandings():
