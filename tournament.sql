@@ -21,7 +21,7 @@ CREATE TABLE matches
 
 CREATE TABLE player_standings
 (
-  player_id serial REFERENCES players(player_id),
+  player_id integer REFERENCES players(player_id),
   matches_played integer,
   wins integer
 );
