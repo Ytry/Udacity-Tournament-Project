@@ -113,3 +113,8 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
+    db = connect()
+    cur = db.cursor()
+    standings = cur.execute("SELECT * FROM view_standings")
+    players[0][0] = cur.execute("SELECT id1, name1, id2, name2 FROM %s WHERE id1 ")
+    return 
