@@ -4,6 +4,7 @@
 #
 
 import psycopg2
+import itertools
 
 
 def connect():
@@ -91,9 +92,9 @@ def reportMatch(winner, loser):
     cur = db.cursor()
     cur.execute("INSERT INTO matches (w_player_id, l_player_id) VALUES (%s, %s)", (winner, loser,))  # noqa
     db.commit()
-    cur.execute("UPDATE player_standings SET matches_played = matches_played+1, wins = wins+1 WHERE player_standings.player_id = %s ", (winner,))
+    cur.execute("UPDATE player_standings SET matches_played = matches_played+1, wins = wins+1 WHERE player_standings.player_id = %s ", (winner,))  # noqa
     db.commit()
-    cur.execute("UPDATE player_standings SET matches_played = matches_played+1 WHERE player_standings.player_id = %s ", (loser,))
+    cur.execute("UPDATE player_standings SET matches_played = matches_played+1 WHERE player_standings.player_id = %s ", (loser,))  # noqa
     db.commit()
     db.close()
 
@@ -115,6 +116,7 @@ def swissPairings():
     """
     db = connect()
     cur = db.cursor()
-    standings = cur.execute("SELECT * FROM view_standings")
-    players[0][0] = cur.execute("SELECT id1, name1, id2, name2 FROM %s WHERE id1 ")
-    return 
+    cur.execute("SELECT player_id, name FROM view_standings")
+    standings = cur.fetchall()
+    pairings = zip(standings[0::2], standings[1::2])
+    return pairings
