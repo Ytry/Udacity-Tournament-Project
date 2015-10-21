@@ -116,7 +116,9 @@ def swissPairings():
     """
     db = connect()
     cur = db.cursor()
-    cur.execute("SELECT player_id, name FROM view_standings")
-    standings = cur.fetchall()
-    pairings = zip(standings[0::2], standings[1::2])
+    standings = playerStandings()
+    pairings = []
+    result = zip(standings[0::2], standings[1::2])
+    for player1, player2 in result:
+        pairings.append((player1[0], player1[1], player2[0], player2[1]))
     return pairings
