@@ -24,8 +24,9 @@ def deletePlayers():
     """Remove all the player records from the database."""
     db = connect()
     cur = db.cursor()
-    cur.execute("DELETE FROM players")
     cur.execute("DELETE FROM player_standings")
+    db.commit()
+    cur.execute("DELETE FROM players")
     db.commit()
     db.close()
 
@@ -49,17 +50,14 @@ def registerPlayer(name):
     Args:
       name: the player's full name (need not be unique).
     """
-<<<<<<< HEAD
+
     db = connect()
     cur = db.cursor()
     cur.execute("INSERT INTO players(name) VALUES (%s)", (name,))
     db.commit()
-    playerID = cur.execute("SELECT player_id FROM players as playerID WHERE name = (%s)", (name,))
-    cur.execute("INSERT INTO player_standings (player_id) VALUES (%s)", (playerID,))
+    cur.execute("INSERT INTO player_standings (player_id, matches_played, wins) VALUES ((SELECT player_id FROM players where name = %s ),0,0)", (name,))  # noqa
     db.commit()
     db.close()
-=======
->>>>>>> parent of e21c485... Added functionality to registerPlayer function
 
 
 def playerStandings():
@@ -77,7 +75,7 @@ def playerStandings():
     """
     db = connect()
     cur = db.cursor()
-    cur.execute("SELECT players.player_id, name, wins, matches_played FROM players, player_standings order by wins desc")  # noqa
+    cur.execute("SELECT players.player_id, name, matches_played, wins FROM players, player_standings WHERE players.player_id = player_standings.player_id ORDER BY wins desc")  # noqa
     standings = cur.fetchall()
     return standings
 
@@ -89,6 +87,7 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
+
 
 
 def swissPairings():
