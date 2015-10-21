@@ -75,7 +75,7 @@ def playerStandings():
     """
     db = connect()
     cur = db.cursor()
-    cur.execute("SELECT players.player_id, name, matches_played, wins FROM players, player_standings WHERE players.player_id = player_standings.player_id ORDER BY wins desc")  # noqa
+    cur.execute("SELECT players.player_id, name, wins, matches_played FROM players, player_standings WHERE players.player_id = player_standings.player_id ORDER BY wins desc")  # noqa
     standings = cur.fetchall()
     return standings
 
