@@ -31,4 +31,5 @@ CREATE VIEW view_standings AS
   SELECT players.player_id, name, wins, matches_played 
     FROM players, player_standings
 	WHERE players.player_id = player_standings.player_id
+	ORDER BY wins
 );
